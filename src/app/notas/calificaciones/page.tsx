@@ -199,15 +199,15 @@ export default function CalificacionesPage() {
   const bloquesPrimariaBase = {
     1: [
       { id_materia: 104, materia: "Idioma Materno", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
-      { id_materia: 105, materia: "Tercer Idioma (Inglés)", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
+      { id_materia: 105, materia: "Tercer Idioma Inglés", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
       { id_materia: 106, materia: "Matemáticas", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
-      { id_materia: 107, materia: "Medio Social", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
-      { id_materia: 108, materia: "Medio Natural", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
-      { id_materia: 109, materia: "Expresión Artística", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" }, // 💡 Restaurado
+      { id_materia: 107, materia: "Ciencias Sociales", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
+      { id_materia: 108, materia: "Ciencias Naturales y Tecnología", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
+      { id_materia: 109, materia: "Expresión Artística Música", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" }, // 💡 Restaurado
       { id_materia: 110, materia: "Educación Física", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
       { id_materia: 111, materia: "Formación Ciudadana", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
       { id_materia: 112, materia: "Ortografía", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
-      { id_materia: 113, materia: "Artes Plásticas", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
+      { id_materia: 113, materia: "Artes plásticas", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
       { id_materia: 114, materia: "Moral Cristiana", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
       { id_materia: 115, materia: "Computación", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" },
     ],
@@ -490,6 +490,11 @@ export default function CalificacionesPage() {
                 3: bloquesPrimariaBase[3].map((m) => ({ ...m })), 4: bloquesPrimariaBase[4].map((m) => ({ ...m })),
                 5: bloquesPrimariaBase[5].map((m) => ({ ...m })),
               };
+              if ([8, 9, 10].includes(idGFinal)) {
+                const idxFormacion = blqs[1].findIndex((m: any) => m.id_materia === 111 || m.materia === "Formación Ciudadana");
+                const insertAt = idxFormacion === -1 ? blqs[1].length : idxFormacion + 1;
+                blqs[1].splice(insertAt, 0, { id_materia: 134, materia: "Productividad y Desarrollo", tipo: "Numerica", u1: "", u2: "", u3: "", u4: "" });
+              }
             } 
             else if (esBasico) {
               blqs = {
