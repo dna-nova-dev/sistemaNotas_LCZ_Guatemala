@@ -2,7 +2,6 @@ import mysql from 'mysql2/promise';
 
 // Configuración de la conexión
 export const pool = mysql.createPool({
-  export const pool = mysql.createPool({
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT) || 3306,
   user: process.env.DB_USERNAME,
@@ -10,7 +9,7 @@ export const pool = mysql.createPool({
   database: process.env.DB_DATABASE,
   waitForConnections: true,
   connectionLimit: 10,
-});,
+});
 
 export async function ejecutarSP(spNombre: string, params: any[] = []) {
   const placeholders = params.map(() => '?').join(',');
