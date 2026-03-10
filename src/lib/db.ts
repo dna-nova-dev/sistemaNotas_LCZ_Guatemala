@@ -2,14 +2,15 @@ import mysql from 'mysql2/promise';
 
 // Configuración de la conexión
 export const pool = mysql.createPool({
-  host: '84.46.245.240',
-  port: 6432,
-  user: 'root', 
-  password: 'SqlDev123*', 
-  database: 'Registro_Notas_Guatemala', // <--- Nombre actualizado
+  export const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT) || 3306,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   waitForConnections: true,
   connectionLimit: 10,
-});
+});,
 
 export async function ejecutarSP(spNombre: string, params: any[] = []) {
   const placeholders = params.map(() => '?').join(',');
