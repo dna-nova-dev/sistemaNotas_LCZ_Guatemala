@@ -28,11 +28,11 @@ const parseNumberEnv = (name: string, fallback: number): number => {
 
 // Configuración de la conexión
 export const pool = mysql.createPool({
-  host: '84.46.245.240',
-  port: 6432,
-  user: 'root', 
-  password: 'SqlDev123*', 
-  database: 'Registro_Notas_Guatemala', // <--- Nombre actualizado
+  host: requiredEnvVar('DB_HOST'),
+  port: parseNumberEnv('DB_PORT', 3306),
+  user: requiredEnvVar('DB_USER'),
+  password: requiredEnvVar('DB_PASSWORD'),
+  database: requiredEnvVar('DB_NAME'),
   waitForConnections: true,
   connectionLimit: parseNumberEnv('DB_CONNECTION_LIMIT', 10),
 });
