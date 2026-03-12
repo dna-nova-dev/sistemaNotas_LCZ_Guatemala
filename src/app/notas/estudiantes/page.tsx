@@ -65,11 +65,20 @@ export default function EstudiantesPage() {
 
   const obtenerConteoUnico = (data: any[]) => {
     if (!data || !Array.isArray(data)) return 0;
-    const nombresUnicos = new Set();
+    const nombresUnicos = new Set<string>();
+
     data.forEach((curr) => {
-      const nombreCompleto = curr.NOMBRE || `${curr.NOMBRES} ${curr.APELLIDOS}`;
-      nombresUnicos.add(nombreCompleto);
+      // Normalizamos el nombre según las distintas formas en que puede venir desde el SP
+      const nombreCompleto =
+        curr.nombre_completo ||
+        curr.NOMBRE ||
+        `${curr.NOMBRES || curr.nombres || ""} ${curr.APELLIDOS || curr.apellidos || ""}`.trim();
+
+      if (nombreCompleto) {
+        nombresUnicos.add(nombreCompleto);
+      }
     });
+
     return nombresUnicos.size;
   };
 
@@ -105,11 +114,26 @@ export default function EstudiantesPage() {
   const cargarEstudiantesGrado = async (gradoId: string, secId: string) => {
     try {
       const data = await obtenerMatrizNotas(Number(gradoId), Number(secId));
+
       const unicos = data.reduce((acc: any[], curr: any) => {
-        const nombreCompleto = curr.NOMBRE || `${curr.NOMBRES} ${curr.APELLIDOS}`;
+        const nombreCompleto =
+          curr.nombre_completo ||
+          curr.NOMBRE ||
+          `${curr.NOMBRES || curr.nombres || ""} ${curr.APELLIDOS || curr.apellidos || ""}`.trim();
+
+        if (!nombreCompleto) return acc;
+
+        const codigo =
+          curr.ID_ALUMNO ||
+          curr.id_alumno ||
+          curr.id_estudiante ||
+          curr.ID_ESTUDIANTE ||
+          "S/C";
+
         if (!acc.find((a) => a.nombre === nombreCompleto)) {
-          acc.push({ nombre: nombreCompleto, codigo: curr.ID_ALUMNO || curr.id_estudiante || "S/C" });
+          acc.push({ nombre: nombreCompleto, codigo });
         }
+
         return acc;
       }, []);
       setGradosVisibles((prev) => ({ ...prev, [`${gradoId}-${secId}`]: unicos }));
